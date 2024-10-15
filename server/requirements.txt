@@ -1,0 +1,7 @@
+PyPDF2
+ollama
+lighthouseweb3
+web3
+python-dotenv
+fastapi
+python-multipart
