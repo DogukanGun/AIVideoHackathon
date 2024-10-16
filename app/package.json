@@ -1,0 +1,34 @@
+{
+  "name": "platform",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@lighthouse-web3/sdk": "^0.3.7",
+    "@tanstack/react-query": "^5.59.14",
+    "@zoralabs/protocol-sdk": "^0.11.2",
+    "connectkit": "^1.8.2",
+    "flowbite-react": "^0.10.2",
+    "next": "14.2.15",
+    "react": "^18",
+    "react-dom": "^18",
+    "viem": "^2.21.26",
+    "wagmi": "^2.12.17"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^8",
+    "eslint-config-next": "14.2.15",
+    "postcss": "^8.4.47",
+    "tailwindcss": "^3.4.14",
+    "typescript": "^5"
+  }
+}
