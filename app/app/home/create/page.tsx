@@ -4,12 +4,14 @@ import {
     useChainId,
     useConnect,
     usePublicClient,
+    useSwitchChain,
     useWriteContract
 } from 'wagmi';
 import { createCreatorClient } from "@zoralabs/protocol-sdk";
 import { useEffect, useState } from 'react';
 import lighthouse, { upload } from '@lighthouse-web3/sdk'
 import { IUploadProgressCallback } from '@lighthouse-web3/sdk/dist/types';
+import { zoraSepolia } from 'viem/chains';
 
 interface NFT {
     name: string,
@@ -26,10 +28,12 @@ const CreateNft = () => {
 
     //Form Field
     const [fileHash, setFileHash] = useState("");
+    const [contractAddress, setContractAddress] = useState("");
     const [nftMetadata, setNftMetadata] = useState<NFT>({name:"",description:""})
 
     //Wagmi
     const chainId = useChainId();
+    const { chains, switchChain } = useSwitchChain()
     const publicClient = usePublicClient()!;
     const creatorClient = createCreatorClient({ chainId, publicClient });
 
@@ -37,6 +41,9 @@ const CreateNft = () => {
         if (!isConnected) {
             const connector = connectors.filter((connecter) => connecter.id === "io.metamask")[0]
             connect({ connector })
+            if(chainId != zoraSepolia.id){
+                switchChain({chainId:zoraSepolia.id})
+            }
         }
     }, [isConnected])
 
@@ -74,6 +81,7 @@ const CreateNft = () => {
             account: address!,
         });
         writeContract(parameters);
+        setContractAddress(contractAddress)
     }
 
     return (
@@ -82,7 +90,7 @@ const CreateNft = () => {
                 <h2 className="mb-4 text-center text-2xl font-bold text-gray-800 md:mb-8 lg:text-3xl">Create Your Proporty's NFT</h2>
 
                 <div className="mx-auto max-w-lg rounded-lg border">
-                    <div className="flex flex-col gap-4 p-4 md:p-8">
+                    {contractAddress == "" ? <div className="flex flex-col gap-4 p-4 md:p-8">
                         <div>
                             <label htmlFor="name" className="mb-2 inline-block text-sm text-gray-800 sm:text-base">Name</label>
                             <input onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
@@ -102,8 +110,10 @@ const CreateNft = () => {
                         </div>
 
 
-                        <button className="block rounded-lg bg-gray-800 px-8 py-3 text-center text-sm font-semibold text-white outline-none ring-gray-300 transition duration-100 hover:bg-gray-700 focus-visible:ring active:bg-gray-600 md:text-base">Create</button>
+                        <button onClick={()=>mintNFT()} className="block rounded-lg bg-gray-800 px-8 py-3 text-center text-sm font-semibold text-white outline-none ring-gray-300 transition duration-100 hover:bg-gray-700 focus-visible:ring active:bg-gray-600 md:text-base">Create</button>
                     </div>
+                    : <div> <p className='text-black'>Your contract address is: </p> <a href={`https://sepolia.explorer.zora.energy/address/${contractAddress}`} className='text-black'>{contractAddress}</a> </div>
+                }
 
                 </div>
             </div>
