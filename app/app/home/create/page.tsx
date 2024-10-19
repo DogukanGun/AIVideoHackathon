@@ -33,7 +33,7 @@ const CreateNft = () => {
 
     //Wagmi
     const chainId = useChainId();
-    const { chains, switchChain } = useSwitchChain()
+    const { switchChain } = useSwitchChain()
     const publicClient = usePublicClient()!;
     const creatorClient = createCreatorClient({ chainId, publicClient });
 
@@ -54,7 +54,7 @@ const CreateNft = () => {
     }
 
     const uploadToIPFS = async (file: FileList | null) => {
-        if (null)
+        if (file  == null)
             return
         const output = await lighthouse.upload(file, process.env.NEXT_PUBLIC_LIGHTHOUSE_KEY!, undefined, progressCallback)
         console.log('File Status:', output)
@@ -102,7 +102,12 @@ const CreateNft = () => {
                         </div>
                         <div>
                             <label htmlFor="description" className="mb-2 inline-block text-sm text-gray-800 sm:text-base">Description</label>
-                            <input name="description" className="w-full rounded border bg-gray-50 px-3 py-2 text-gray-800 outline-none ring-indigo-300 transition duration-100 focus:ring" />
+                            <input onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                                setNftMetadata((prev) => ({
+                                    ...prev,
+                                    description: event.target.value,
+                                }))
+                            } name="description" className="w-full rounded border bg-gray-50 px-3 py-2 text-gray-800 outline-none ring-indigo-300 transition duration-100 focus:ring" />
                         </div>
                         <div>
                             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" htmlFor="file_input">Upload file</label>
