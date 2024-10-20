@@ -18,8 +18,9 @@ const Marketplace = () => {
 
     const startTrade = () => {
         //marketplace contract 0xb80e1f79F6964cc1D9562C9Fd8a469A0B09189a1
+        //0x20Ec7c1888D3B77eeccF580b33e51b5a412F1b40
         writeContract({
-            address:"0xb80e1f79F6964cc1D9562C9Fd8a469A0B09189a1",
+            address:"0x20Ec7c1888D3B77eeccF580b33e51b5a412F1b40",
             abi:marketplaceAbi,
             functionName:"startTrade",
             args:[

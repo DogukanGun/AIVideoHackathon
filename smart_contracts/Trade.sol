@@ -12,6 +12,7 @@ contract Trade is ITrade {
 
     address seller;
     address buyer;
+    address owner;
     uint256 amount;
     address marketplace;
     bool isFirstPaymentDone;
@@ -21,6 +22,7 @@ contract Trade is ITrade {
     constructor(address _seller,address _buyer,uint256 _amount,address _marketplace){
         seller = _seller;
         buyer = _buyer;
+        owner = _seller;
         amount = _amount;
         marketplace = _marketplace;
     }
@@ -48,6 +50,11 @@ contract Trade is ITrade {
         require(msg.sender == marketplace, "Only marketplace can verify this transfer");
         isTradeVerified = true;
         payable(seller).transfer(address(this).balance);
+        owner = buyer;
+    }
+
+    function checkOwner() external view returns(address) {
+        return owner;
     }
 
 }

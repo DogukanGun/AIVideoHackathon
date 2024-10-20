@@ -7,7 +7,7 @@ contract Marketplace {
 
     address aiProcessor;
 
-    mapping(address=>address) activeTrades;
+    mapping(address=>address) public activeTrades;
 
     constructor(address _aiProcessor) {
         aiProcessor = _aiProcessor;
